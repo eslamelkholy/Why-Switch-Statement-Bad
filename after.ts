@@ -20,19 +20,25 @@ interface IOrder {
 
 class Checkout implements IOrder {
   getOrderData(): OrderData {
-    return new OrderData('Welcome USER', `${ORDER_STATUS.CHECKOUT} Action`);
+    const welcomeMsg = 'Welcome USER';
+    const action = `${ORDER_STATUS.CHECKOUT} Action`;
+    return new OrderData(welcomeMsg, action);
   }
 }
 
 class Payment implements IOrder {
   getOrderData(): OrderData {
-    return new OrderData('Welcome USER', `${ORDER_STATUS.PAYMENT} Action`);
+    const welcomeMsg = 'Welcome USER';
+    const action = `${ORDER_STATUS.PAYMENT} Action`;
+    return new OrderData(welcomeMsg, action);
   }
 }
 
 class Deliver implements IOrder {
   getOrderData(): OrderData {
-    return new OrderData('Welcome', `${ORDER_STATUS.DELIVER} Action`);
+    const welcomeMsg = 'Welcome';
+    const action = `${ORDER_STATUS.DELIVER} Action`;
+    return new OrderData(welcomeMsg, action);
   }
 }
 
