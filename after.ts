@@ -37,25 +37,21 @@ class Deliver implements IOrder {
 }
 
 class OrderStrategy {
-  public orderProcessors: Map<string, IOrder>;
+  public CHECKOUT: IOrder;
+  public PAYMENT: IOrder;
+  public DELIVER: IOrder;
 
   constructor() {
-    this.orderProcessors = this.getStrategies();
-  }
-
-  getStrategies(): Map<string, IOrder> {
-    const processors = new Map();
-    processors.set(ORDER_STATUS.CHECKOUT, new Checkout());
-    processors.set(ORDER_STATUS.PAYMENT, new Payment());
-    processors.set(ORDER_STATUS.DELIVER, new Deliver());
-    return processors;
+    this.CHECKOUT = new Checkout();
+    this.PAYMENT = new Payment();
+    this.DELIVER = new Deliver();
   }
 }
 
-function getOrderData(STATUS: string): OrderData {
+function getOrderData(STATUS: ORDER_STATUS): OrderData {
   const orderStrategy = new OrderStrategy();
 
-  return orderStrategy.orderProcessors.get(STATUS)?.getOrderData() || new OrderData();
+  return orderStrategy[STATUS].getOrderData();
 }
 
 console.log(getOrderData(ORDER_STATUS.PAYMENT));
