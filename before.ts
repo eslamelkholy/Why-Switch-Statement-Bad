@@ -1,4 +1,4 @@
-enum ORDER_STATUS {
+enum ORDER_STATUS_BEFORE {
   CHECKOUT = 'CHECKOUT',
   PAYMENT = 'PAYMENT',
   DELIVER = 'DELIVER',
@@ -13,17 +13,17 @@ function orderData(STATUS: string): Order {
   const result = new Order();
 
   switch (STATUS) {
-    case ORDER_STATUS.CHECKOUT:
+    case ORDER_STATUS_BEFORE.CHECKOUT:
       result.msg = 'Welcome USER';
-      result.action = `${ORDER_STATUS.CHECKOUT} Action`;
+      result.action = `${ORDER_STATUS_BEFORE.CHECKOUT} Action`;
 
-    case ORDER_STATUS.PAYMENT:
+    case ORDER_STATUS_BEFORE.PAYMENT:
       result.msg = 'Welcome USER';
-      result.action = `${ORDER_STATUS.PAYMENT} Action`;
+      result.action = `${ORDER_STATUS_BEFORE.PAYMENT} Action`;
 
-    case ORDER_STATUS.DELIVER:
+    case ORDER_STATUS_BEFORE.DELIVER:
       result.msg = 'Welcome';
-      result.action = `${ORDER_STATUS.DELIVER} Action`;
+      result.action = `${ORDER_STATUS_BEFORE.DELIVER} Action`;
     default:
       break;
   }
@@ -31,4 +31,4 @@ function orderData(STATUS: string): Order {
   return result;
 }
 
-console.log(orderData(ORDER_STATUS.CHECKOUT));
+console.log(orderData(ORDER_STATUS_BEFORE.CHECKOUT));

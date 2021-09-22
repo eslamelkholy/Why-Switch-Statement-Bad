@@ -13,7 +13,9 @@ So Switch statement should be used very carefully. <br/><br/>
 - **Bad Code Smell & Bad OOP Style** <br/>
   containing lots of redundant codes and the code going to be messy with time
 
-## OLD Example
+<br/>
+
+## Old Example
 
 this Example Violates **Open-Closed** when we want to add new Functionality at this Function
 also we have lots of redundant codes like Order Msg Data
@@ -45,3 +47,67 @@ function orderData(STATUS: string): Order {
 So Using switch on a type is very bad OOP Style how can we refactor this code ? <br/>
 
 The best solution of this is Using **( Polymorphism + Strategy Pattern )**
+
+## The Below Code is a Solution with Polymorphism & Strategy Pattern
+
+1- Initialize IOrder Interface & Other Payment Processors which have different business logic
+
+```typescript
+interface IOrder {
+  getOrderData(): OrderData;
+}
+
+class Checkout implements IOrder {
+  getOrderData(): OrderData {
+    return new OrderData('Welcome USER', `${ORDER_STATUS.CHECKOUT} Action`);
+  }
+}
+
+class Payment implements IOrder {
+  getOrderData(): OrderData {
+    return new OrderData('Welcome USER', `${ORDER_STATUS.PAYMENT} Action`);
+  }
+}
+
+class Deliver implements IOrder {
+  getOrderData(): OrderData {
+    return new OrderData('Welcome', `${ORDER_STATUS.DELIVER} Action`);
+  }
+}
+```
+
+2- Add Strategy Design Pattern Which Holds All Payment Processors Objects
+
+```typescript
+class OrderStrategy {
+  public orderProcessors: Map<string, IOrder>;
+
+  constructor() {
+    this.orderProcessors = this.getStrategies();
+  }
+
+  getStrategies(): Map<string, IOrder> {
+    const processors = new Map();
+    processors.set(ORDER_STATUS.CHECKOUT, new Checkout());
+    processors.set(ORDER_STATUS.PAYMENT, new Payment());
+    processors.set(ORDER_STATUS.DELIVER, new Deliver());
+    return processors;
+  }
+}
+```
+
+3- Now Our getOrderData function clean and Ready to use
+
+```typescript
+function getOrderData(STATUS: string): OrderData {
+  const orderStrategy = new OrderStrategy();
+
+  return orderStrategy.orderProcessors.get(STATUS)?.getOrderData() || new OrderData();
+}
+```
+
+## Conclusion
+
+Switch Statement is not bad at all but sometimes it violates OOP, also Breaks Open-Closed Principle <br/>
+and it's going to be very hard to maintain and and refactor our Code in the future is going to be like a rock in our back <br/> and the best solution to handle
+these staff is to use **Polymorphism and Strategy Pattern**
